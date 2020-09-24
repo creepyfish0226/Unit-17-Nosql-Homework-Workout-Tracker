@@ -9,17 +9,17 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(morgan("tiny"))
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populatedb", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
+app.use(require("./controller/html-controller"));
+app.use(require("./controller/api-controller"));
 
-app.use(require("./routes.api.js"));
+// app.get("/", (req, res) => {
+//     res.sendfile(path.join(_dirname + "/public/index.html"));
+// });
 
-app.get("/", (req, res) => {
-    res.sendfile(path.join(_dirname + "/public/index.html"));
-});
-
-app.listen(port, () => {
-    console.log("app running onport ${port}!");
+app.listen(PORT, () => {
+    console.log(`app running onport ${PORT}!`);
 });
