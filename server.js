@@ -12,7 +12,16 @@ app.use(express.json());
 app.use(morgan("tiny"))
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
+mongoose.connect(
+    process.env.MONGODB_URI || 'mongodb://localhost/workout',
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false
+    }
+  );
+  
 app.use(require("./controller/html-controller"));
 app.use(require("./controller/api-controller"));
 
